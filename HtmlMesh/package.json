@@ -21,9 +21,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "prepublishOnly": "mv README.md README-github.md && mv README-npm.md README.md",
-    "postpublish": "mv README.md README-npm.md && mv README-github.md README.md"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "author": "rooom AG <developer@rooom.com>",
   "license": "UNLICENSED",
