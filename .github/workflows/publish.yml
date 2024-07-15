@@ -5,10 +5,17 @@ on:
     branches: [ custom-htmlmesh ]
     tags:
       - 'v*'
+    paths:
+      - 'HtmlMesh/**'
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: 'HtmlMesh'
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
