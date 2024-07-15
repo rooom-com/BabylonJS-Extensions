@@ -1,7 +1,7 @@
 {
-  "name": "babylon-htmlmesh",
+  "name": "@rooom-com/babylon-htmlmesh",
   "version": "2.0.1",
-  "description": "A BabylonJS Mesh that can display HTML DOM Content in scene (can occlude other meshes and can be occluded)",
+  "description": "A custom version of BabylonJS HtmlMesh",
   "type": "module",
   "main": "dist/umd/babylon-htmlmesh.js",
   "module": "dist/es/babylon-htmlmesh.js",
@@ -25,11 +25,11 @@
     "prepublishOnly": "mv README.md README-github.md && mv README-npm.md README.md",
     "postpublish": "mv README.md README-npm.md && mv README-github.md README.md"
   },
-  "author": "Eric Wood",
-  "license": "ISC",
+  "author": "rooom AG <developer@rooom.com>",
+  "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "https://github.com/BabylonJS/Extensions"
+    "url": "https://github.com/rooom-com/BabylonJS-Extensions.git"
   },
   "peerDependencies": {
     "@babylonjs/core": "5.x || 6.x || 7.x"
