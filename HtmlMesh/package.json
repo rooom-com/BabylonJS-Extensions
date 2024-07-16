@@ -25,6 +25,7 @@
   },
   "author": "rooom AG <developer@rooom.com>",
   "license": "UNLICENSED",
+  "private": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/rooom-com/BabylonJS-Extensions.git"
