@@ -1,6 +1,6 @@
 {
   "name": "@rooom/babylon-htmlmesh",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "A custom version of BabylonJS HtmlMesh",
   "type": "module",
   "main": "dist/umd/babylon-htmlmesh.js",
@@ -26,6 +26,9 @@
   "author": "rooom AG <developer@rooom.com>",
   "license": "UNLICENSED",
   "private": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/rooom-com/BabylonJS-Extensions.git"
