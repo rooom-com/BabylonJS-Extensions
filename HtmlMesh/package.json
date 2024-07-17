@@ -1,6 +1,6 @@
 {
   "name": "@rooom/babylon-htmlmesh",
-  "version": "1.0.13",
+  "version": "1.1.0",
   "description": "A custom version of BabylonJS HtmlMesh",
   "type": "module",
   "main": "dist/umd/babylon-htmlmesh.js",
@@ -8,7 +8,8 @@
   "exports": {
     ".": {
       "import": "./dist/es/babylon-htmlmesh.js",
-      "require": "./dist/umd/babylon-htmlmesh.js"
+      "require": "./dist/umd/babylon-htmlmesh.js",
+      "types": "./dist/babylon-htmlmesh.d.ts"
     }
   },
   "files": [
@@ -31,7 +32,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/rooom-com/BabylonJS-Extensions.git"
+    "url": "git+https://github.com/rooom-com/BabylonJS-Extensions.git"
   },
   "peerDependencies": {
     "@babylonjs/core": "5.x || 6.x || 7.x"
