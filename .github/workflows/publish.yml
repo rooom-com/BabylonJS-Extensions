@@ -27,6 +27,11 @@ jobs:
           registry-url: 'https://registry.npmjs.org/'
           scope: '@rooom'
 
+      - name: Configure npm
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+          echo "@rooom:registry=https://registry.npmjs.org/" >> .npmrc
+
       - name: Install dependencies
         run: npm install
 
