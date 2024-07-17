@@ -1,6 +1,6 @@
 {
   "name": "@rooom/babylon-htmlmesh",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A custom version of BabylonJS HtmlMesh",
   "type": "module",
   "main": "dist/umd/babylon-htmlmesh.js",
