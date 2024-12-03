@@ -46,6 +46,7 @@ jobs:
             
             # Create commit
             git commit -m "chore: sync upstream HtmlMesh changes"
+            git push origin $BRANCH
             
             # Set output for PR creation
             echo "changes_detected=true" >> $GITHUB_OUTPUT
