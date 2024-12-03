@@ -1,0 +1,82 @@
+name: Sync Upstream Changes
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'  # Weekly on Monday
+  workflow_dispatch:      # Manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Check and sync upstream changes
+        id: sync
+        run: |
+          # Setup git
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          
+          # Create temp directory and clone upstream
+          TEMP_DIR=$(mktemp -d)
+          git clone --depth 1 https://github.com/BabylonJS/Babylon.js.git $TEMP_DIR
+          
+          # Define source and target directories
+          SRC_DIR="$TEMP_DIR/packages/dev/addons/src/htmlMesh"
+          TARGET_DIR="src"
+          
+          # Create branch with timestamp
+          BRANCH="sync/upstream-$(date +%Y%m%d-%H%M%S)"
+          git checkout -b $BRANCH
+          
+          # Compare directories
+          if ! diff -r "$SRC_DIR" "$TARGET_DIR" > /dev/null 2>&1; then
+            # Directory differs - copy files
+            rm -rf "$TARGET_DIR"/*
+            cp -r "$SRC_DIR"/* "$TARGET_DIR"/
+            
+            # Stage changes
+            git add "$TARGET_DIR"
+            
+            # Create commit
+            git commit -m "chore: sync upstream HtmlMesh changes"
+            git push origin $BRANCH
+            
+            # Set output for PR creation
+            echo "changes_detected=true" >> $GITHUB_OUTPUT
+            echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+          else
+            echo "No changes detected"
+            echo "changes_detected=false" >> $GITHUB_OUTPUT
+          fi
+          
+          # Cleanup
+          rm -rf $TEMP_DIR
+
+      - name: Create Pull Request
+        if: steps.sync.outputs.changes_detected == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ steps.sync.outputs.branch }}
+          title: '⬆️ Sync upstream HtmlMesh changes'
+          body: |
+            🤖 This PR was automatically created to sync the latest HtmlMesh implementation from BabylonJS.
+            
+            ### ⚠️ Review Needed
+            Please review the changes carefully, especially if you have local modifications that need to be preserved.
+            
+            ### 📝 Next Steps
+            1. Review the changes
+            3. Apply any needed custom modifications
+            4. Merge when ready
+          labels: |
+            sync
+            dependencies
+          draft: false
