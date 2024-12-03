@@ -67,8 +67,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ steps.sync.outputs.branch }}
-          base: ${{ env.BASE_BRANCH }}
+          branch: ${{ env.BASE_BRANCH }}
           title: '⬆️ Sync upstream HtmlMesh changes'
           body: |
             🤖 This PR was automatically created to sync the latest HtmlMesh implementation from BabylonJS.
