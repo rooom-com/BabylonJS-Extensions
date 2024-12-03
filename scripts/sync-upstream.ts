@@ -31,14 +31,12 @@ async function syncUpstream(): Promise<void> {
     const sourcePath = path.join(tempDir, config.sourceDir);
     const targetPath = path.join(process.cwd(), config.targetDir);
     
-    // Ensure source directory exists
     try {
       await fs.access(sourcePath);
     } catch {
       throw new Error(`Source directory not found: ${config.sourceDir}`);
     }
     
-    // Create backup of current state
     const backupDir = `${targetPath}-backup-${Date.now()}`;
     console.log('📦 Creating backup...');
     await fs.cp(targetPath, backupDir, { recursive: true });
@@ -55,12 +53,10 @@ async function syncUpstream(): Promise<void> {
     console.error('❌ Error during sync:', error);
     throw error;
   } finally {
-    // Cleanup
     await fs.rm(tempDir, { recursive: true, force: true });
   }
 }
 
-// Run sync if called directly
 if (require.main === module) {
   syncUpstream().catch(error => {
     console.error(error);
