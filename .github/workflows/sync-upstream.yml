@@ -13,6 +13,9 @@ jobs:
       pull-requests: write
 
     steps:
+      - name: Determine base branch
+        run: echo "BASE_BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -64,7 +67,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: ${{ steps.sync.outputs.branch }}
+          base: ${{ env.BASE_BRANCH }}
           title: '⬆️ Sync upstream HtmlMesh changes'
           body: |
             🤖 This PR was automatically created to sync the latest HtmlMesh implementation from BabylonJS.
