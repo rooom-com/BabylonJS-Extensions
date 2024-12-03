@@ -50,6 +50,7 @@ jobs:
             # Create commit
             git commit -m "chore: sync upstream HtmlMesh changes"
             git push origin $BRANCH
+            git checkout $BASE_BRANCH
             
             # Set output for PR creation
             echo "changes_detected=true" >> $GITHUB_OUTPUT
@@ -67,7 +68,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: ${{ env.BASE_BRANCH }}
+          branch: ${{ steps.sync.outputs.branch }}
           title: '⬆️ Sync upstream HtmlMesh changes'
           body: |
             🤖 This PR was automatically created to sync the latest HtmlMesh implementation from BabylonJS.
