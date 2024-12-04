@@ -71,6 +71,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ steps.sync.outputs.branch }}
+          base: master
           title: '⬆️ Sync upstream HtmlMesh changes'
           body: |
             🤖 This PR was automatically created to sync the latest HtmlMesh implementation from BabylonJS.
