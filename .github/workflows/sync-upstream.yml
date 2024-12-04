@@ -13,13 +13,10 @@ jobs:
       pull-requests: write
 
     steps:
-      - name: Determine base branch
-        run: echo "BASE_BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          ref: ${{ env.BASE_BRANCH }}
+          ref: master
 
       - name: Check and sync upstream changes
         id: sync
@@ -45,6 +42,8 @@ jobs:
             # Directory differs - copy files
             rm -rf "$TARGET_DIR"/*
             cp -r "$SRC_DIR"/* "$TARGET_DIR"/
+
+            git log -1
             
             # Stage changes
             git add "$TARGET_DIR"
@@ -52,6 +51,8 @@ jobs:
             # Create commit
             git commit -m "chore: sync upstream HtmlMesh changes"
             git push origin $BRANCH
+
+            git log -1
             
             # Set output for PR creation
             echo "changes_detected=true" >> $GITHUB_OUTPUT
@@ -70,7 +71,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ steps.sync.outputs.branch }}
-          base: ${{ env.BASE_BRANCH }}
           title: '⬆️ Sync upstream HtmlMesh changes'
           body: |
             🤖 This PR was automatically created to sync the latest HtmlMesh implementation from BabylonJS.
