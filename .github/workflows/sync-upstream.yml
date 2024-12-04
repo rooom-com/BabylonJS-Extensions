@@ -35,7 +35,6 @@ jobs:
           
           # Create branch with timestamp
           BRANCH="sync/upstream-$(date +%Y%m%d-%H%M%S)"
-          git checkout -b $BRANCH
           
           # Compare directories
           if ! diff -r "$SRC_DIR" "$TARGET_DIR" > /dev/null 2>&1; then
@@ -50,7 +49,6 @@ jobs:
             
             # Create commit
             git commit -m "chore: sync upstream HtmlMesh changes"
-            git push origin $BRANCH
 
             git log -1
             
