@@ -23,7 +23,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "sync-upstream": "ts-node scripts/sync-upstream.ts"
+    "sync-upstream": "node scripts/sync-upstream.cjs"
   },
   "author": "rooom AG <developer@rooom.com>",
   "license": "UNLICENSED",

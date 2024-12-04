@@ -1,8 +1,8 @@
-import { promises as fs } from 'fs';
-import * as path from 'path';
-import { promisify } from 'util';
-import { exec } from 'child_process';
-import * as glob from 'glob';
+const fs = require('fs').promises;
+const path = require('path');
+const { promisify } = require('util');
+const { exec } = require('child_process');
+const glob = require('glob');
 
 const execAsync = promisify(exec);
 
@@ -14,7 +14,7 @@ const config = {
   targetDir: 'src',
 };
 
-const transformImport = (content: string, importMappings: string[]) => {
+const transformImport = (content, importMappings) => {
   return content
     .replace(/from ['"]([^'"]+)['"]/g, (match, importPath) => {
       const mappedImport = importMappings.find(mapping => importPath.startsWith(mapping));
@@ -26,7 +26,7 @@ const transformImport = (content: string, importMappings: string[]) => {
     });
 }
 
-async function syncUpstream(): Promise<void> {
+async function syncUpstream() {
   const tempDir = path.join(process.cwd(), 'temp-upstream');
   
   try {
@@ -43,7 +43,7 @@ async function syncUpstream(): Promise<void> {
     const sourcePath = path.join(tempDir, config.sourceDir);
     const targetPath = path.join(process.cwd(), config.targetDir);
 
-    let importMappings: string[] = [];
+    let importMappings = [];
 
     try {
       await fs.access(packagesPath);
@@ -58,10 +58,6 @@ async function syncUpstream(): Promise<void> {
       throw new Error(`Source directory not found: ${config.sourceDir}`);
     }
     
-    const backupDir = `${targetPath}-backup-${Date.now()}`;
-    console.log('📦 Creating backup...');
-    await fs.cp(targetPath, backupDir, { recursive: true });
-    
     console.log('🔄 Copying files...');
     await fs.rm(targetPath, { recursive: true, force: true });
     await fs.cp(sourcePath, targetPath, { recursive: true });
@@ -74,7 +70,6 @@ async function syncUpstream(): Promise<void> {
     }
     
     console.log('✅ Sync completed successfully!');
-    console.log(`📁 Backup created at: ${backupDir}`);
     
   } catch (error) {
     console.error('❌ Error during sync:', error);
@@ -91,4 +86,4 @@ if (require.main === module) {
   });
 }
 
-export { syncUpstream };
+module.exports = { syncUpstream };
