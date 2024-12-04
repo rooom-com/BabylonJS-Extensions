@@ -18,6 +18,14 @@ jobs:
         with:
           ref: master
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
       - name: Check and sync upstream changes
         id: sync
         run: |
@@ -25,43 +33,22 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           
-          # Create temp directory and clone upstream
-          TEMP_DIR=$(mktemp -d)
-          git clone --depth 1 https://github.com/BabylonJS/Babylon.js.git $TEMP_DIR
-          
-          # Define source and target directories
-          SRC_DIR="$TEMP_DIR/packages/dev/addons/src/htmlMesh"
-          TARGET_DIR="src"
-          
-          # Create branch with timestamp
+          # Generate desired branch name with timestamp
           BRANCH="sync/upstream-$(date +%Y%m%d-%H%M%S)"
+
+          # Run sync script
+          npm run sync-upstream
           
-          # Compare directories
-          if ! diff -r "$SRC_DIR" "$TARGET_DIR" > /dev/null 2>&1; then
-            # Directory differs - copy files
-            rm -rf "$TARGET_DIR"/*
-            cp -r "$SRC_DIR"/* "$TARGET_DIR"/
-
-            git log -1
-            
-            # Stage changes
-            git add "$TARGET_DIR"
-            
-            # Create commit
+          # Check if there are changes
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git add .
             git commit -m "chore: sync upstream HtmlMesh changes"
-
-            git log -1
-            
-            # Set output for PR creation
             echo "changes_detected=true" >> $GITHUB_OUTPUT
             echo "branch=$BRANCH" >> $GITHUB_OUTPUT
           else
             echo "No changes detected"
             echo "changes_detected=false" >> $GITHUB_OUTPUT
           fi
-          
-          # Cleanup
-          rm -rf $TEMP_DIR
 
       - name: Create Pull Request
         if: steps.sync.outputs.changes_detected == 'true'
