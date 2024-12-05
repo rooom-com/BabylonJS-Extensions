@@ -35,10 +35,10 @@ jobs:
 
       - name: Check versions
         run: |
-          TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          TAG_VERSION=${{ github.ref_name }}
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          if [ "$TAG_VERSION" != "$PACKAGE_VERSION" ]; then
-            echo "Tag version ($TAG_VERSION) does not match package.json version ($PACKAGE_VERSION). Aborting!"
+          if [ "$TAG_VERSION" != "v$PACKAGE_VERSION" ]; then
+            echo "Tag version ($TAG_VERSION) does not match package.json version (v$PACKAGE_VERSION). Aborting!"
             exit 1
           fi
 
