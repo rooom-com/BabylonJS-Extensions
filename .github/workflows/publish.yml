@@ -2,7 +2,7 @@ name: Build and Publish NPM Package
 
 on:
   push:
-    branches: [ custom-htmlmesh-2 ]
+    branches: [ master ]
     tags:
       - 'v*'
 
