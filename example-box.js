@@ -7,8 +7,8 @@ import { Color4 } from "@babylonjs/core/Maths/math.color";
 import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 import "@babylonjs/core/Helpers/sceneHelpers";
 
-import { HtmlMeshRenderer } from "./src/html-mesh-renderer";
-import { HtmlMesh } from "./src/html-mesh";
+import { HtmlMeshRenderer } from "./src/htmlMeshRenderer";
+import { HtmlMesh } from "./src/htmlMesh";
 
 const debug = true;
 

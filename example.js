@@ -7,12 +7,12 @@ import { Color4 } from "@babylonjs/core/Maths/math.color";
 import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 import "@babylonjs/core/Helpers/sceneHelpers";
 
-import { HtmlMeshRenderer } from "./src/html-mesh-renderer";
-import { HtmlMesh } from "./src/html-mesh";
+import { HtmlMeshRenderer } from "./src/htmlMeshRenderer";
+import { HtmlMesh } from "./src/htmlMesh";
 
 import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera";
 import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
-import { FitStrategy } from "./src/fit-strategy";
+import { FitStrategy } from "./src/fitStrategy";
 
 const debug = true;
 
