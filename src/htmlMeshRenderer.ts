@@ -235,7 +235,7 @@ export class HtmlMeshRenderer {
         const transparentRenderOrder = renderOrderFunc(defaultTransparentRenderOrder);
         scene.setRenderingOrder(0, opaqueRenderOrder, alphaTestRenderOrder, transparentRenderOrder);
 
-        this._renderObserver = scene.onAfterRenderObservable.add(() => {
+        this._renderObserver = scene.onBeforeRenderObservable.add(() => {
             this._render(scene, scene.activeCamera as Camera);
         });
     }
