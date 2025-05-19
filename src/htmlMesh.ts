@@ -15,8 +15,8 @@ import { FitStrategy } from "./fitStrategy";
  * the HTML content so that it matches the camera and mesh orientation.  The class supports interactions in editable and non-editable mode.
  * In non-editable mode (the default), events are passed to the HTML content when the pointer is over the mask (and not occluded by other meshes
  * in the scene).
- * #HVHYJC#5
- * #B17TC7#112
+ * @see https://playground.babylonjs.com/#HVHYJC#5
+ * @see https://playground.babylonjs.com/#B17TC7#112
  */
 export class HtmlMesh extends Mesh {
     /**
@@ -186,11 +186,10 @@ export class HtmlMesh extends Mesh {
         this._height = height;
         this._requiresUpdate = true;
 
-        // Invert the scaling so that the content matched with the mesh
-        this.scaling.set(1, 1, -1);
+        this.scaling.setAll(1);
 
         if (element) {
-            this._element!.appendChild(this._fitStrategy.wrapElement(element));
+            this._element.appendChild(this._fitStrategy.wrapElement(element));
 
             this._updateScaleIfNecessary();
         }
@@ -224,7 +223,7 @@ export class HtmlMesh extends Mesh {
             return;
         }
 
-        this._fitStrategy.updateSize(this._element.firstElementChild! as HTMLElement, width, height);
+        this._fitStrategy.updateSize(this._element.firstElementChild as HTMLElement, width, height);
 
         this._updateScaleIfNecessary();
 
@@ -260,9 +259,9 @@ export class HtmlMesh extends Mesh {
 
         // If enabled, then revert the content element display
         // otherwise hide it
-        this._element!.style.display = enabled ? "" : "none";
+        this._element.style.display = enabled ? "" : "none";
         // Capture the content z index
-        this._setElementZIndex(this.position.z * -10000);
+        this._setElementzIndex(this.position.z * -10000);
         super.setEnabled(enabled);
     }
 
@@ -270,8 +269,8 @@ export class HtmlMesh extends Mesh {
         // If we have setContent before, the content scale is baked into the mesh.  If we don't reset the vertices to
         // the original size, then we will multiply the scale when we bake the scale below.  By applying the inverse, we back out
         // the scaling that has been done so we are starting from the same point.
-        // First reset the scale to 1, but invert it so that the content matches with the mesh
-        this.scaling.set(1, 1, -1);
+        // First reset the scale to 1
+        this.scaling.setAll(1);
         // Then back out the original vertices changes to match the content scale
         if (this._inverseScaleMatrix) {
             this.bakeTransformIntoVertices(this._inverseScaleMatrix);
@@ -313,9 +312,9 @@ export class HtmlMesh extends Mesh {
         this.material.freeze();
     }
 
-    protected _setElementZIndex(zIndex: number) {
+    protected _setElementzIndex(zIndex: number) {
         if (this._element) {
-            this._element!.style.zIndex = `${zIndex}`;
+            this._element.style.zIndex = `${zIndex}`;
         }
     }
 
