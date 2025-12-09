@@ -1,6 +1,6 @@
 {
   "name": "@rooom/babylon-htmlmesh",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "A custom version of BabylonJS HtmlMesh",
   "type": "module",
   "main": "dist/umd/babylon-htmlmesh.js",
@@ -26,7 +26,7 @@
     "sync-upstream": "node scripts/sync-upstream.cjs"
   },
   "author": "rooom AG <developer@rooom.com>",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "private": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
