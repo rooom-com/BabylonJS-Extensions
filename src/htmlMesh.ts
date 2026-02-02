@@ -186,8 +186,7 @@ export class HtmlMesh extends Mesh {
         this._height = height;
         this._requiresUpdate = true;
 
-        // Invert the scaling so that the content matched with the mesh
-        this.scaling.set(1, 1, -1);
+        this.scaling.setAll(1);
 
         if (element) {
             this._element.appendChild(this._fitStrategy.wrapElement(element));
@@ -270,8 +269,8 @@ export class HtmlMesh extends Mesh {
         // If we have setContent before, the content scale is baked into the mesh.  If we don't reset the vertices to
         // the original size, then we will multiply the scale when we bake the scale below.  By applying the inverse, we back out
         // the scaling that has been done so we are starting from the same point.
-        // First reset the scale to 1, but invert it so that the content matches with the mesh
-        this.scaling.set(1, 1, -1);
+        // First reset the scale to 1
+        this.scaling.setAll(1);
         // Then back out the original vertices changes to match the content scale
         if (this._inverseScaleMatrix) {
             this.bakeTransformIntoVertices(this._inverseScaleMatrix);
