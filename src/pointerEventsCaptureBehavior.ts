@@ -1,6 +1,6 @@
-import type { AbstractMesh } from '@babylonjs/core/Meshes/abstractMesh';
-import type { Behavior } from '@babylonjs/core/Behaviors/behavior';
-import type { Scene } from '@babylonjs/core/scene';
+import { type AbstractMesh } from '@babylonjs/core/Meshes/abstractMesh';
+import { type Behavior } from '@babylonjs/core/Behaviors/behavior';
+import { type Scene } from '@babylonjs/core/scene';
 import { Logger } from '@babylonjs/core/Misc/logger';
 import { requestCapture, requestRelease, releaseCurrent, getCapturingId } from "./pointerEventsCapture";
 
@@ -134,6 +134,13 @@ export class PointerEventsCaptureBehavior implements Behavior<AbstractMesh> {
 
     public set attachedMesh(value: AbstractMesh | null) {
         this._attachedMesh = value;
+    }
+
+    /**
+     * Attached node of this behavior
+     */
+    public get attachedNode(): AbstractMesh | null {
+        return this._attachedMesh;
     }
 
     constructor(
