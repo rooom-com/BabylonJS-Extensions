@@ -1,14 +1,14 @@
-import type { Scene } from '@babylonjs/core/scene';
+import { type Scene } from '@babylonjs/core/scene';
 import { Matrix, Quaternion, Vector3 } from '@babylonjs/core/Maths/math';
 
-import type { HtmlMesh } from "./htmlMesh";
+import { type HtmlMesh } from "./htmlMesh";
 import { Camera } from '@babylonjs/core/Cameras/camera';
-import type { SubMesh } from '@babylonjs/core/Meshes/subMesh';
+import { type SubMesh } from '@babylonjs/core/Meshes/subMesh';
 import { RenderingGroup } from '@babylonjs/core/Rendering/renderingGroup';
 
-import type { Observer } from '@babylonjs/core/Misc/observable';
+import { type Observer } from '@babylonjs/core/Misc/observable';
 import { Logger } from '@babylonjs/core/Misc/logger';
-import type { AbstractEngine } from '@babylonjs/core/Engines';
+import { type AbstractEngine } from '@babylonjs/core/Engines';
 import { TransformNode } from '@babylonjs/core/Meshes/transformNode';
 
 const PositionUpdateFailMessage = "Failed to update html mesh renderer position due to failure to get canvas rect.  HtmlMesh instances may not render correctly";
@@ -58,6 +58,21 @@ const RenderOrderFunc = (defaultRenderOrder: RenderOrderFunction): RenderOrderFu
  * created before.
  */
 export class HtmlMeshRenderer {
+    /**
+     * Global scale factor applied to the homogeneous `w` component (m[15]) of the
+     * transformation matrix when projecting 3D objects into pixel space.
+     *
+     * This value is used to balance Babylon units against screen pixels, ensuring
+     * that HTML-mapped or screen-space objects appear with the correct relative
+     * size. Adjust with care, as changing it affects the projection scale of all
+     * transformed objects.
+     *
+     *  The default value is `0.00001`, which works well when 1 Babylon unit
+     *  corresponds to 1 meter, and the typical screen resolution is around
+     * 100 pixels per meter (i.e., 1 pixel per centimeter).
+     */
+    public static PROJECTION_SCALE_FACTOR = 0.00001;
+
     private _containerId?: string;
     private _inSceneElements?: RenderLayerElements | null;
     private _overlayElements?: RenderLayerElements | null;
@@ -236,7 +251,7 @@ export class HtmlMeshRenderer {
         const transparentRenderOrder = RenderOrderFunc(defaultTransparentRenderOrder);
         scene.setRenderingOrder(0, opaqueRenderOrder, alphaTestRenderOrder, transparentRenderOrder);
 
-        this._renderObserver = scene.onAfterRenderObservable.add(() => {
+        this._renderObserver = scene.onBeforeRenderObservable.add(() => {
             this._render(scene, scene.activeCamera as Camera);
         });
     }
@@ -425,7 +440,7 @@ export class HtmlMeshRenderer {
             (-this._cameraWorldMatrix.m[12] + position.x) * BabylonUnitsToPixels * direction,
             (-this._cameraWorldMatrix.m[13] + position.y) * BabylonUnitsToPixels * direction,
             (this._cameraWorldMatrix.m[14] - position.z) * BabylonUnitsToPixels,
-            this._cameraWorldMatrix.m[15] * 0.00001 * BabylonUnitsToPixels
+            this._cameraWorldMatrix.m[15] * HtmlMeshRenderer.PROJECTION_SCALE_FACTOR * BabylonUnitsToPixels
         );
 
         // Adjust other values to be pixels vs Babylon units
